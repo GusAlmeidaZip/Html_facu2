@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando Valores</title>
+    <script src="ordenando.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            margin: 0 20px;
+            width: 300px;
+        }
+
+        button, select, input[type="number"] {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        ul li {
+            font-size: 18px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ordenando Valores</h1>
+    <div class="container">
+        <div class="box">
+            <!-- camp -->
+            <label for="valor">Valor</label>
+            <input type="number" id="valor" placeholder="Digite um valor">
+
+            <!-- Bot de add -->
+            <button onclick="add()">Adicionar</button>
+
+            <select id="algoritmo">
+                <option value="bubble" selected>Bubble Sort</option>
+                <option value="selection">Selection Sort</option>
+                <option value="quick">Quick Sort</option>
+            </select>
+
+            <!-- Bot de ord -->
+            <button onclick="ordenar()">Ordenar</button>
+            <button onclick="misturar()">Misturar</button>
+
+            <ul id="valores"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Fun para add valor na lista
+        function add() {
+            let valor = document.getElementById("valor").value;
+            let lista = document.getElementById("valores");
+
+            let node = document.createElement("li");
+            let textNode = document.createTextNode(valor);
+            node.appendChild(textNode);
+
+            lista.appendChild(node);
+        }
+
+        // Fun para ordenar a lista de valores
+        function ordenar() {
+            let lista = document.getElementById("valores");
+            let algoritmo = document.getElementById("algoritmo").selectedIndex;
+
+            let valoresArray = Array.from(lista.children).map(li => parseInt(li.innerHTML));
+
+            switch (algoritmo) {
+                case 0:
+                    bubble_sort(valoresArray);
+                    break;
+                case 1:
+                    selection_sort(valoresArray);
+                    break;
+                case 2:
+                    quick_sort(valoresArray, 0, valoresArray.length - 1);
+                    break;
+            }
+
+            lista.innerHTML = valoresArray.map(v => `<li>${v}</li>`).reduce((acc, li) => acc + li, '');
+        }
+
+        // Função para misturar a lista de valores
+        function misturar() {
+            let lista = document.getElementById("valores");
+            let valoresArray = Array.from(lista.children).map(li => parseInt(li.innerHTML));
+
+            shuffle(valoresArray, valoresArray.length * 2);
+
+            lista.innerHTML = valoresArray.map(v => `<li>${v}</li>`).reduce((acc, li) => acc + li, '');
+        }
+    </script>
+</body>
+</html>
